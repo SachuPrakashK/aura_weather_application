@@ -1,0 +1,60 @@
+<main class="min-h-screen bg-transparent relative py-6 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+
+    <div class="w-full max-w-7xl mx-auto flex flex-col gap-6 lg:gap-8 z-10 relative mt-2">
+        <header class="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div
+                    class="inline-flex items-center justify-center p-3 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/50 dark:border-slate-700/50 transition-colors duration-500">
+                    <span class="text-4xl filter drop-shadow-sm">⛅</span>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+                        Aura <span
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-indigo-500 dark:from-primary-400 dark:to-indigo-400">Weather</span>
+                    </h1>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Precision global forecasting.</p>
+                </div>
+            </div>
+
+            <div class="w-full md:w-96 lg:w-[450px]">
+                <app-search></app-search>
+            </div>
+        </header>
+
+        @if (errorMsg()) {
+        <div
+            class="w-full bg-red-50/80 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-2xl border border-red-100 dark:border-red-800/30 flex items-center gap-3 backdrop-blur-sm shadow-sm animate-shake">
+            <span class="text-xl">⚠️</span>
+            <p class="font-medium text-sm">{{errorMsg()}}</p>
+        </div>
+        }
+
+        @if (!errorMsg()) {
+        <section class="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fade pb-6">
+            <!-- Left Column: Current & Hourly -->
+            <div class="lg:col-span-8 flex flex-col gap-6">
+                <app-current-weather class="block h-auto" [weatherData]="weather()" [cityData]="city()"
+                    [aqiData]="aqi()" [isLoading]="isLoading()"></app-current-weather>
+                <app-hourly-forecast class="block h-auto" [weatherData]="weather()"
+                    [isLoading]="isLoading()"></app-hourly-forecast>
+            </div>
+
+            <!-- Right Column: 7 Day Forecast -->
+            <div class="lg:col-span-4 flex flex-col h-full gap-6">
+                <app-forecast class="block h-full flex-grow" [weatherData]="weather()"
+                    [isLoading]="isLoading()"></app-forecast>
+            </div>
+        </section>
+
+        <!-- Weather News Section -->
+        <section class="w-full mt-2 mb-8 relative z-10">
+            <app-weather-news [city]="city()"></app-weather-news>
+        </section>
+        }
+    </div>
+
+    <footer
+        class="mt-auto pt-6 pb-4 w-full text-center text-slate-400 dark:text-slate-500 text-sm z-10 relative transition-colors duration-500">
+        <p>Aura Weather &copy; 2026 Designed for a seamless real-time weather tracking experience.</p>
+    </footer>
+</main>
